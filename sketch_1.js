@@ -1,12 +1,14 @@
 
 let mobilenet;
 
-let puffin;
+let video;
+let nameLabel = '';
+let nameConfidence = '';
 
 function modelReady() {
 
     console.log('Model is ready!!!');
-    mobilenet.predict(puffin, gotResults);
+    mobilenet.predict(gotResults);
 }
 
 
@@ -21,31 +23,39 @@ function gotResults(error, results) {
 
         console.log(results);
 
-        let namelabel = results[0].label;
-        let nameConfidence = results[0].confidence;
-        fill(255);
-        textSize(16);
-        text(namelabel, 10, height - 5);
-        text(nameConfidence, 10, height - 21);
+        nameLabel = results[0].label;
+        nameConfidence = results[0].confidence;
+        
+        mobilenet.predict(gotResults);
 
     }
 
 
 }
 
-function imageReady() {
+// function imageReady() {
 
-    image(puffin, 0, 0, width, height - 40);
-}
+//     image(puffin, 0, 0, width, height - 40);
+// }
 
 function setup() {
 
     createCanvas(640, 520);
+
+    video = createCapture(VIDEO);
+    video.hide();
     background(0)
 
-    puffin = createImg('images/salamandra.jpg', imageReady);
-    puffin.hide();
+    mobilenet = ml5.imageClassifier('MobileNet', video, modelReady);
 
-    mobilenet = ml5.imageClassifier('MobileNet', modelReady);
+}
 
+function draw() {
+    background(0);
+    image(video, 0, 0);
+
+    fill(255);
+    textSize(16);
+    text(nameConfidence, 10, height - 5);
+    text(nameLabel, 10, height - 21);
 }
