@@ -21,11 +21,11 @@ function gotResults(error, results) {
 
     else {
 
-        console.log(results);
+        // console.log(results);
 
         nameLabel = results[0].label;
         nameConfidence = results[0].confidence;
-        
+
         mobilenet.predict(gotResults);
 
     }
