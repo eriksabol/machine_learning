@@ -41,7 +41,6 @@ function setup() {
 
     mobilenet = ml5.imageClassifier('MobileNet', modelReady);
 
-
 }
 
 function draw() {
